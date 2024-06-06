@@ -1116,26 +1116,42 @@ conn.sendButton = async (jid, text = '', footer = '', buffer, buttons, copy, url
 
 
 conn.sendList = async(jid, title, text, buttonText, listSections, quoted, options = {}) => {
-const sections = [...listSections];
-const message = {
-interactiveMessage: {
-header: {title: title} ,
-body: {text: text}, 
-nativeFlowMessage: {
-buttons: [
-{
-name: 'single_select',
-buttonParamsJson: JSON.stringify({
-title: buttonText,
-sections
-})
-}
-],
-messageParamsJson: ''
-}
-}
-}
-await conn.relayMessage(jid, { viewOnceMessage: { message } }, {});
+  const sections = [...listSections];
+  const message = {
+    message: {
+      "messageContextInfo": {
+        "deviceListMetadata": {},
+        "deviceListMetadataVersion": 2
+      },
+      interactiveMessage: proto.Message.InteractiveMessage.create({
+        body: proto.Message.InteractiveMessage.Body.create({ text: text }),
+        footer: proto.Message.InteractiveMessage.Footer.create({ text: "" }),
+        header: proto.Message.InteractiveMessage.Header.create({ title: title, subtitle: "", hasMediaAttachment: false }),
+        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+          buttons: [
+            {
+              name: 'single_select',
+              buttonParamsJson: JSON.stringify({
+                title: buttonText,
+                sections
+              })
+            }
+          ]
+        }),
+        contextInfo: {
+          mentionedJid: [m.sender],
+          forwardingScore: 1,
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363160031023229@newsletter',
+            newsletterName: 'INFINITY-WA 💫', 
+            serverMessageId: ''
+          }
+        }
+      })
+    }
+  };
+  await conn.relayMessage(jid, { viewOnceMessage: message }, {});
 }
 					
 conn.getFile = async (PATH, saveToFile = false) => { 
