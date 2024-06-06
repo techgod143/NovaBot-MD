@@ -106,6 +106,7 @@ const userSender = m.key.fromMe ? botnm : m.isGroup && m.key.participant.include
 const isCreator = [conn.decodeJid(conn.user.id), ...global.owner.map(([numero]) => numero)].map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender);
 const isOwner = isCreator || m.fromMe;
 const isMods = isOwner || global.mods.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender);
+const isPrems = isOwner || global.premium.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
 //const isCreator = global.owner.map(([numero]) => numero.replace(/[^\d\s().+:]/g, '').replace(/\s/g, '') + '@s.whatsapp.net').includes(userSender) 
 const itsMe = m.sender == conn.user.id ? true : false 
 const text = args.join(" ") 
@@ -602,19 +603,23 @@ messageTimestamp  : m.messageTimestamp || 754785898978
 return conn.ev.emit('messages.upsert', { messages : [ emit ] ,  type : 'notify'})
 }}}
 
-//ARRANCA LA DIVERSIÓN  
-switch (prefix && command) { 
+//ARRANCA LA DIVERSIÓN   
+switch (prefix && command) {  
 case 'test': {
-const test = generateWAMessageFromContent(from, { viewOnceMessage: { message: { "messageContextInfo": { "deviceListMetadata": {}, "deviceListMetadataVersion": 2 }, interactiveMessage: proto.Message.InteractiveMessage.create({ body: proto.Message.InteractiveMessage.Body.create({ text: 'gey' }), footer: proto.Message.InteractiveMessage.Footer.create({ text: "" }), header: proto.Message.InteractiveMessage.Header.create({ title: "", subtitle: "", hasMediaAttachment: false }), nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({buttons: [ {"name": "single_select", "buttonParamsJson": `{"title":"Click", "sections":[{"title":"", "highlight_label": "", "rows":[ {"header":"", "title":"Velocidad", "description":"", "id":".ping"}, {"header":"", "title":"Estado", "description":"", "id":".estado"}, {"header":"", "title":"Menu", "description":"", "id":".menu"}]}]}`}]}), contextInfo: {mentionedJid: [m.sender], forwardingScore: 1, isForwarded: true,forwardedNewsletterMessageInfo: { newsletterJid: '120363167110224268@newsletter', newsletterName: 'Nova', serverMessageId: '' }}})}}}, {})
-const testI = generateWAMessageFromContent(m.key.remoteJid, { viewOnceMessage: { message: { "messageContextInfo": { "deviceListMetadata": {}, "deviceListMetadataVersion": 2 }, interactiveMessage: proto.Message.InteractiveMessage.create({ body: proto.Message.InteractiveMessage.Body.create({ text: '' }), footer: proto.Message.InteractiveMessage.Footer.create({ text: 'NovaBot' }), header: proto.Message.InteractiveMessage.Header.create({ title: 'Nova', subtitle: 'MarioJs', hasMediaAttachment: false }), nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({ buttons: [ { "name": "quick_reply", "buttonParamsJson": `{"display_text":"Menu","id":".menu"}` }, { "name": "quick_reply", "buttonParamsJson": `{"display_text":"Ping","id":".ping"}` }], })})}}}, {})
-conn.relayMessage(test.key.remoteJid, test.message, { messageId: test.key.id }, {quoted: m})
+const test = generateWAMessageFromContent(from, { viewOnceMessage: { message: { "messageContextInfo": { "deviceListMetadata": {}, "deviceListMetadataVersion": 2 }, interactiveMessage: proto.Message.InteractiveMessage.create({ body: proto.Message.InteractiveMessage.Body.create({ text: 'gey' }), footer: proto.Message.InteractiveMessage.Footer.create({ text: "" }), header: proto.Message.InteractiveMessage.Header.create({ title: "", subtitle: "", hasMediaAttachment: false }), nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({buttons: [ {"name": "single_select", "buttonParamsJson": `{"title":"Click", "sections":[{"title":"", "highlight_label": "", "rows":[ {"header":"", "title":"Velocidad", "description":"", "id":".ping"}, {"header":"", "title":"Estado", "description":"", "id":".estado"}, {"header":"", "title":"Menu", "description":"", "id":".menu"}]}]}`}]}), contextInfo: {mentionedJid: [m.sender], forwardingScore: 1, isForwarded: true,forwardedNewsletterMessageInfo: { newsletterJid: '120363167110224268@newsletter', newsletterName: 'Nova', serverMessageId: '' }}})}}}, {})     
+const testI = generateWAMessageFromContent(m.key.remoteJid, { viewOnceMessage: { message: { "messageContextInfo": { "deviceListMetadata": {}, "deviceListMetadataVersion": 2 }, interactiveMessage: proto.Message.InteractiveMessage.create({ body: proto.Message.InteractiveMessage.Body.create({ text: '' }), footer: proto.Message.InteractiveMessage.Footer.create({ text: 'NovaBot' }), header: proto.Message.InteractiveMessage.Header.create({ title: 'Nova', subtitle: 'MarioJs', hasMediaAttachment: false }), nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({ buttons: [ { "name": "quick_reply", "buttonParamsJson": `{"display_text":"Menu","id":".menu"}` }, { "name": "quick_reply", "buttonParamsJson": `{"display_text":"Ping","id":".ping"}` }], })})}}}, {}) 
+//conn.relayMessage(test.key.remoteJid, test.message, { messageId: test.key.id }, {quoted: m})
 conn.relayMessage(testI.key.remoteJid, testI.message, { messageId: testI.key.id }, {quoted: m})
 }
-break 
+break        
+   
+case 'test2':   
+conn.sendButton(m.chat, `hola  @${sender.split("@")[0]} `, wm, pickRandom([img, img1, img2]), [['𝐃𝐄𝐒𝐂𝐀𝐑𝐆𝐀𝐑', `.descarga`], ['𝐕𝐄𝐋𝐎𝐂𝐈𝐃𝐀𝐃', `.ping`]], null, [['𝐍𝐨𝐯𝐚𝐁𝐨𝐭-𝐌𝐃', `${pickRandom([nna, nn, md, yt])}`]], null, { contextInfo: { mentionedJid: [sender] }}) 
+ break 
   
 case 'yts': case 'playlist': case 'ytsearch': case 'acortar': case 'google': case 'imagen': case 'traducir': case 'translate': case "tts": case 'ia': case 'chatgpt': case 'dalle': case 'ia2': case 'aimg': case 'imagine': case 'dall-e': case 'ss': case 'ssweb': case 'wallpaper': case 'hd': case 'horario': case 'bard': case 'wikipedia': case 'wiki': case 'pinterest': case 'style': case 'styletext': case 'npmsearch': await buscadores(m, command, conn, text, budy, from, fkontak, prefix, args, quoted, lolkeysapi)
 break   
-
+ 
 //jadibot/serbot  
 case 'serbot': case 'jadibot': case 'qr':
 jadibot(conn, m, command, text, args, sender)
@@ -630,7 +635,24 @@ const totalUsers = user.length;
 const responseMessage = `${lenguaje.jadibot.text18} ${totalUsers || '0'}\n\n${replyMessage.trim()}`.trim();
 await conn.sendMessage(m.chat, {text: responseMessage, mentions: conn.parseMention(responseMessage)}, {quoted: m, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100});
 break
-              
+           
+case 'bin': {
+const numeroAleatorio = Math.floor(Math.random() * 9000) + 1000;
+if (!isPrems) return m.reply(info.premium) 	
+if (!text) return m.reply(`⚠️Ingrese el número BIN\n*🔐 Algunos bin disponible :*\n• ${prefix + command} 539083\n• ${prefix + command} 464622\n• ${prefix + command} 464625\n• ${prefix + command} 464627`);
+  
+axios.get(`https://venomweb.site/apisfree/tipo/bin?query=${text}`)
+    .then(response => {
+      const data = response.data.data;
+      const bin = `🔐 Bin: ${data.bin}\n• País: ${data.pais}\n• Tipo: ${data.tipo}\n• Nivel: ${data.nivel}\n• Banco: ${data.banco}\n• tarjeta: ${data.bandeira}\n• Temporal: ${data.tempo_resposta}\n> ${data.code}`;
+      m.reply(bin);
+    })
+    .catch(error => {
+      console.log(error);
+      m.reply('Ocurrió un error al consultar la API');
+    })}
+  break;
+             
 //Info  
 case 'menu': case 'help': case 'menucompleto': case 'allmenu': case 'menu2': case 'audio': case 'nuevo': case 'extreno': case 'reglas': case 'menu1': case 'menu3': case 'menu4': case 'menu5': case 'menu6': case 'menu7': case 'menu8': case 'menu9': case 'menu10': case 'menu11': case 'menu18': case 'descarga': case 'menugrupos': case 'menubuscadores': case 'menujuegos': case 'menuefecto': case 'menuconvertidores': case 'Menuhony': case 'menurandow': case 'menuRPG': case 'menuSticker': case 'menuOwner': menu(m, command, conn, prefix, pushname, sender, pickRandom, fkontak)  
 break        
@@ -825,6 +847,41 @@ m.reply(lenguaje.idioma2() + idiomas)
 m.reply(lenguaje.AvisoMG() + lenguaje.idioma(prefix))}}
 break  
  	                 
+case 'addprem': { 
+if (!isCreator) return reply(info.owner)
+let who
+if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : false
+else who = m.chat
+let user = global.db.data.users[who]
+if (!who) return m.reply(`⚠️ Etiqueta al usuario\n\n*• Ejemplo:*\n${prefix + command} @tag`)
+if (global.premium.includes(who.split`@`[0])) return m.reply('⚠️ El usuario Mensionado Ya es premium') 
+global.premium.push(`${who.split`@`[0]}`)
+
+conn.sendTextWithMentions(m.chat, `[ ✅ 𝐏𝐑𝐄𝐌𝐈𝐔𝐌 ✅ ]
+
+@${who.split`@`[0]} ahora te conviertes en un usuario premium`)}
+break
+
+case 'delprem': {         
+if (!isCreator) return reply(info.owner)    
+let who
+if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text ? text.replace(/[^0-9]/g, '') + '@s.whatsapp.net' : false
+else who = text ? text.replace(/[^0-9]/g, '') + '@s.whatsapp.net' : m.chat
+let user = global.db.data.users[who]
+if (!who) return m.reply(`⚠️ Etiqueta al usuario\n\n*• Ejemplo:*\n${prefix + command} @tag`)
+if (!global.premium.includes(who.split`@`[0])) return m.reply('✳️ El usuario no es Premium') 
+let index = global.premium.findIndex(v => (v.replace(/[^0-9]/g, '') + '@s.whatsapp.net') === (who.replace(/[^0-9]/g, '') + '@s.whatsapp.net'))
+global.premium.splice(index, 1)
+conn.sendTextWithMentions(m.chat, `@${who.split('@')[0]} Dejarte de ser un usuarios premium`, m)}
+break
+             
+case 'listprem': {
+if (!isCreator) return reply(info.owner)
+let prem = global.premium.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').filter(v => v != conn.user.jid) 
+let teks = `*[ 𝐔𝐒𝐔𝐀𝐑𝐈𝐎𝐒 𝐏𝐑𝐄𝐌𝐈𝐔𝐌 ]*\n─────────────\n` + prem.map(v => '- @' + v.replace(/@.+/, '')).join`\n`
+conn.sendTextWithMentions(m.chat, teks)}
+break
+ 	                 
 //propietario/owner
 case 'bcgc': case 'bcgroup': case 'bc': case 'broadcast': case 'bcall': case 'block': case 'bloquear': case 'unblock': case 'desbloquear': case 'setcmd':  case 'addcmd': case 'delcmd': case 'listcmd': case 'añadirdiamantes': case 'dardiamantes': case 'addlimit': case 'añadirxp': case 'addexp': case 'addxp': case 'fetch': case 'get': case 'fotobot': case 'nuevafoto': case 'seppbot': case 'botname': case 'nuevonombre': case 'namebot': case 'banuser': case 'unbanuser': case 'backup': case 'respaldo': case 'copia': owner(isCreator, m, command, conn, text, delay, fkontak, store, quoted, sender, mime, args) 
 break    
@@ -873,7 +930,7 @@ await m.reply(updatee.toString())}
 break
 case 'reiniciar': case 'restart':
 if (!process.send) throw 'Dont: node main.js\nDo: node index.js'
-if (!isCreator) return reply(info.owner) 		
+if (!isPrems) return m.reply(info.premium) 		
 m.reply(lenguaje.owner.text28)
 sleep(5000)
 process.send('reset')

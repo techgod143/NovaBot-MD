@@ -1,7 +1,6 @@
 (async () => {
 require("./settings")
-const { default: makeWASocket, CONNECTING, PHONENUMBER_MCC, makeInMemoryStore, useMultiFileAuthState, jidNormalizedUser,WAMessageStubType, prepareWAMessageMedia, generateMessageID, downloadContentFromMessage, msgRetryCounterMap, makeCacheableSignalKeyStore, emitGroupParticipantsUpdate, emitGroupUpdate, getAggregateVotesInPollMessage, MediaType, GroupMetadata, initInMemoryKeyStore, MiscMessageGenerationOptions, BufferJSON,  WAMessageProto,  MessageOptions, WAFlag,  WANode,	 WAMetric, ChatModification,  MessageTypeProto,  WALocationMessage, ReconnectMode,  WAContextInfo,  proto,	 WAGroupMetadata,  ProxyAgent,	 waChatKey,  MimetypeMap,  MediaPathMap,  WAContactMessage,  WAContactsArrayMessage,  WAGroupInviteMessage,  WATextMessage,  WAMessageContent,  WAMessage,  BaileysError,  WA_MESSAGE_STATUS_TYPE,  MediaConnInfo,   generateWAMessageContent, URL_REGEX,  Contact, WAUrlInfo,  WA_DEFAULT_EPHEMERAL,  WAMediaUpload,  mentionedJid,  processTime,	 Browser,  MessageType,  Presence,  WA_MESSAGE_STUB_TYPES,  Mimetype,  relayWAMessage,	 Browsers,  GroupSettingChange,  DisconnectReason,  WASocket,  getStream,  WAProto,  isBaileys,  AnyMessageContent,  generateWAMessageFromContent, fetchLatestBaileysVersion, processMessage,  processingMutex } = require("@whiskeysockets/baileys")
-
+const { default: makeWASocket, CONNECTING, PHONENUMBER_MCC, Browsers, makeInMemoryStore, useMultiFileAuthState, DisconnectReason, proto , jidNormalizedUser,WAMessageStubType, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, msgRetryCounterMap, makeCacheableSignalKeyStore, fetchLatestBaileysVersion, getAggregateVotesInPollMessage } = require("@whiskeysockets/baileys")
 const { state, saveCreds } = await useMultiFileAuthState('./sessions')
 const chalk = require('chalk')
 const moment = require('moment')
@@ -267,35 +266,27 @@ conversation: 'SimpleBot',
 }}
 
 sock.ev.on('messages.upsert', async chatUpdate => {
-//console.log(JSON.stringify(chatUpdate, undefined, 2))
 try {
 chatUpdate.messages.forEach(async (mek) => {
 try {
-//mek = (Object.keys(chatUpdate.messages[0])[0] !== "senderKeyDistributionMessage") ?  chatUpdate.messages[0] : chatUpdate.messages[1]
-
-if (!mek.message) return
-//console.log(chatUpdate.type)
-mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
-if (mek.key && mek.key.remoteJid === 'status@broadcast') return
-    
-if (!sock.public && !m.key.fromMe && !chatUpdate.type === 'notify') return
-m = smsg(sock, mek)
-//if (m.key.fromMe === true) return
-//if (m.mtype === 'senderKeyDistributionMessage') mek = chatUpdate.messages[1]
-global.numBot = sock.user.id.split(":")[0] + "@s.whatsapp.net"
-global.numBot2 = sock.user.id
-try {
-require("./main")(sock, m, chatUpdate, mek)
+if (!mek.message) return;
+mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message;
+if (mek.key && mek.key.remoteJid === 'status@broadcast') return;
+if (!sock.public && !mek.key.fromMe && chatUpdate.type === 'notify') return;
+if (mek.key.id.startsWith('BAE5') && mek.key.id.length === 16) return;
+if (mek.key.id.startsWith('FatihArridho_')) return;
+global.numBot = sock.user.id.split(":")[0] + "@s.whatsapp.net";
+global.numBot2 = sock.user.id;
+m = smsg(sock, mek);
+require("./main")(sock, m, chatUpdate, mek, store);
 } catch (e) {
-let sktext = util.format(e)
-console.log(sktext)
-
-}} catch (e) {
-console.log(e)
-}})
+console.error('Ocurrió un error:', e);
+}
+});
 } catch (err) {
-console.log(err)
-}})
+console.error('Error in messages.upsert event:', err);
+}
+});
 
 sock.ev.on('messages.update', async chatUpdate => {
 for(const { key, update } of chatUpdate) {
@@ -330,8 +321,13 @@ sock.ev.on("groups.update", async (json) => {
 console.log(color(json, '#009FFF'))
 //console.log(json)
 const res = json[0];
-let detect = global.db.data.chats[res.id].detect
-if (!detect) return
+//let detect = global.db.data.chats[res.id].detect
+//if (!detect) return
+if (global.db.data.chats[res.id] && global.db.data.chats[res.id].detect) {
+} else {
+console.log('error') 
+}
+
 if (res.announce == true) {
 await sleep(2000)
 try {
@@ -505,7 +501,11 @@ mentionedJid:[m.sender],
 sock.ev.on('group-participants.update', async (anu) => {
 console.log(anu)
 //let Welc = global.db.data.chats[anu.id].welcome
-if(global.db.data.chats[anu.id].welcome < true) return
+//if(global.db.data.chats[anu.id].welcome < true) return
+if (global.db.data.chats[anu.id] && global.db.data.chats[anu.id].welcome) {
+} else {
+//console.log('error') 
+}
 try {
 let metadata = await sock.groupMetadata(anu.id)
 let participants = anu.participants
@@ -551,7 +551,6 @@ newsletterName: 'INFINITY-WA 💫' }, forwardingScore: 9999999, isForwarded: tru
 "showAdAttribution": true}}, 
 seconds: '4556', ptt: true, mimetype: 'audio/mpeg', fileName: `error.mp3` }, {quoted: null, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100})
 if (media === 'texto2')
-/*sock.sendButton(m.chat, `${lenguaje['smsWel7']()} ${lenguaje['smsWel']()} @${name.split("@")[0]} ${lenguaje['smsWel2']()}\n${lenguaje['smsWel8']()} ${metadata.subject}\n${lenguaje['smsWel9']()} ${miembros}\n${lenguaje['smsWel10']()} ${date}\n\n${lenguaje['smsWel11']()} \n\n${metadata.desc}`, botname, welc, [['🥳 Bienvenido', `bienvenido`], ['🔰Menu', `.menu`]], null, [['𝐍𝐨𝐯𝐚𝐁𝐨𝐭-𝐌𝐃', `${pickRandom([nna, nn, md, yt])}`]], m)*/
 sock.sendMessage(anu.id, { text: `${lenguaje['smsWel7']()} ${lenguaje['smsWel']()} @${name.split("@")[0]} ${lenguaje['smsWel2']()}\n${lenguaje['smsWel8']()} ${metadata.subject}\n${lenguaje['smsWel9']()} ${miembros}\n${lenguaje['smsWel10']()} ${date}\n\n${lenguaje['smsWel11']()} \n\n${metadata.desc}`, contextInfo:{
 forwardedNewsletterMessageInfo: { 
 newsletterJid: '120363160031023229@newsletter', 
