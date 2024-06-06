@@ -48,10 +48,10 @@ let stateRun = `╭┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⪩
 ┊┃ ${lenguaje.info.text9} ${conn.public ? 'Público' : `Privado`}
 ┊┃ ${lenguaje.info.text10} ${user.length}
 ┊┗━━━━━━━━━━━━━━•
-╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⪩ ${conn.user.id == global.numBot2 ? '' : `\n\n${lenguaje.info.text11} wa.me/${global.numBot.split`@`[0]}`}`.trim() //`
+╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⪩\n`.trim() //`
 let ments = [me]      
-//conn.sendButton(m.chat, stateRun, botname, img, [['𝐌𝐄𝐍𝐔', `.menu`], ['𝐆𝐑𝐔𝐏𝐎𝐒', `.grupos`]], null, [['𝐍𝐨𝐯𝐚𝐁𝐨𝐭-𝐌𝐃', nna]], contextInfo:{ mentionedJid:[sender]}}, { quoted: fkontak})
-conn.sendMessage(m.chat, {image: imagen1, caption: stateRun, contextInfo:{ mentionedJid:[sender]}}, { quoted: fkontak, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100})
+conn.sendButton(m.chat, stateRun, `${conn.user.id == global.numBot2 ? '' : `\n\n${lenguaje.info.text11} wa.me/${global.numBot.split`@`[0]}`}`, pickRandom([img, img1, img2]), [['𝐌𝐄𝐍𝐔', `.help`], ['𝐕𝐄𝐋𝐎𝐂𝐈𝐃𝐀𝐃', `.ping`]], null, [['𝐍𝐨𝐯𝐚𝐁𝐨𝐭-𝐌𝐃', `${pickRandom([nna, nn, md, yt])}`]], fkontak) 
+//conn.sendMessage(m.chat, {image: imagen1, caption: stateRun, contextInfo:{ mentionedJid:[sender]}}, { quoted: fkontak, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100})
 }
 
 if (command == 'owner' || command == 'creador' || command == 'contacto') {

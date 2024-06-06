@@ -314,7 +314,7 @@ if (command == 'levelup' || command == 'nivel') {
 let user = global.db.data.users[m.sender]; 
 if (!canLevelUp(user.level, user.exp, global.multiplier)) { 
 let {min, xp, max} = xpRange(user.level, global.multiplier);
-return m.reply(`╭╌「 ${lenguaje.rpg.level} 」
+return conn.sendButton(m.chat, `╭╌「 ${lenguaje.rpg.level} 」
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
 ├ ${lenguaje.rpg.level2}
 ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
@@ -322,9 +322,8 @@ return m.reply(`╭╌「 ${lenguaje.rpg.level} 」
 ├─ ❐ *XP 🆙:* ${user.exp - min}/${xp}
 ├─ ${lenguaje['smsAutonivel3']()} ${user.level}
 ├─ ${lenguaje['smsAutonivel6']()} ${user.role}
-╰╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
-
-${lenguaje.rpg.level4} *${max - user.exp}* ${lenguaje.rpg.level5}`)} 
+╰╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n\n`, `${lenguaje.rpg.level4} *${max - user.exp}* ${lenguaje.rpg.level5}`, null, [['🔥 𝐌𝐄𝐍𝐔 🔥', `/menu`]], null, null, m)
+} 
 const before = user.level * 1; 
 while (canLevelUp(user.level, user.exp, global.multiplier)) user.level++; 
 if (before !== user.level) {

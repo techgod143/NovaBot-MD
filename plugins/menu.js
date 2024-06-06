@@ -415,7 +415,7 @@ let menuOwner = `╭┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈⪩
 
 if (command == 'menu' || command == 'help') {
 m.react('💫') 
-let saludos = `~ Hola ${pushname} ${user.registered === true ? '✓' : ''}`
+let saludos = `~ Hola @${sender.split("@")[0]} ${user.registered === true ? '✓' : ''}`
 let menu = `
 ╭┄╌╌╌╌〔 ≪ •🌐• ≫ 〕╌╌┄─╌╌•
 ┆📡 ʙɪᴇɴᴠᴇɴɪᴅᴏ ᴀʟ ᴍᴇɴᴜ ʟɪsᴛᴀ
@@ -462,10 +462,10 @@ rows: [{ header: "𝐌𝐄𝐍𝐔 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎", title: "",
 { header: "𝐋𝐈𝐒𝐓𝐀 𝐃𝐄 𝐋𝐎𝐆𝐎𝐒", title: "", id: `.logos`, description: `Muestra la lista para crear logos\n` }, 
 { header: "𝐕𝐄𝐋𝐎𝐂𝐈𝐃𝐀𝐃", title: "", id: `.status`, description: `Comprueba la velocidad del bot\n` }, 
 { header: "𝐑𝐄𝐆𝐋𝐀", title: "", id: `.reglas`, description: `Conecer la reglas del bot\n` }, 
-{ header: "𝐑𝐄𝐆𝐋𝐀𝐒", title: "", id: `.nuevo`, description: `Revisan si hay nueva versión / comando\n` }
+{ header: "𝐍𝐔𝐄𝐕𝐎𝐒", title: "", id: `.nuevo`, description: `Revisan si hay nueva versión / comando\n` }
 ]})
 
-conn.sendList(m.chat, saludos, menu, `sᴇʟᴇᴄᴄɪᴏɴᴇs ᴀǫᴜɪ`, listSections, fkontak)
+conn.sendList(m.chat, saludos, menu, `sᴇʟᴇᴄᴄɪᴏɴᴇs ᴀǫᴜɪ`, listSections, {quoted: fkontak})
 
 /*conn.sendMessage(m.chat, { text: menu,  
 contextInfo:{  
