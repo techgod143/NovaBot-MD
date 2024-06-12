@@ -40,13 +40,18 @@ conn.sendButton(m.chat, `${command}`, botname, result, [['🔄 𝐒𝐈𝐆𝐔�
 db.data.users[m.sender].limit -= 1
 m.reply('1 ' + info.limit)}
 if (command == 'blackpink') {
-sendImageAsUrl("https://delirius-image-random.vercel.app/api/all")}
+conn.sendButton(m.chat, 'blackpink', botname, "https://delirius-image-random.vercel.app/api/all", [['🔄 𝐒𝐈𝐆𝐔𝐈𝐄𝐍𝐓𝐄 🔄', `/${command}`]], null, null, m)
+//sendImageAsUrl("https://delirius-image-random.vercel.app/api/all")
+}
 if (command == 'navidad') {
 const res = (await axios.get(`https://raw.githubusercontent.com/elrebelde21/NovaBot-MD/master/src/randow/navidad.json`)).data;
 const result = await res[Math.floor(res.length * Math.random())];
-sendImageAsUrl(result, `${command}`)}
+//sendImageAsUrl(result, `${command}`)
+conn.sendButton(m.chat, `${command}`, botname, result, [['🔄 𝐒𝐈𝐆𝐔𝐈𝐄𝐍𝐓𝐄 🔄', `/${command}`]], null, null, m)
+}
 if (command == 'china') {
-sendImageAsUrl("https://delirius-api.vercel.app/api/china")
+conn.sendButton(m.chat, `${command}`, botname, "https://delirius-api.vercel.app/api/china", [['🔄 𝐒𝐈𝐆𝐔𝐈𝐄𝐍𝐓𝐄 🔄', `/${command}`]], null, null, m)
+//sendImageAsUrl("https://delirius-api.vercel.app/api/china")
 }}
 
 async function randow2(conn, m, command, text, sender, pushname) {

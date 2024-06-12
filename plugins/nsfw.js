@@ -16,7 +16,8 @@ if (!m.isGroup) return m.reply(info.group)
 let user = global.db.data.users[m.sender].age
 if (user < 15) return m.reply(lenguaje.nsfw.text) 
 if (command == 'hentai') {
-sendImageAsUrl("https://delirius-nsfw.onrender.com/media/h/bdsm", '🥵')
+//sendImageAsUrl("https://delirius-nsfw.onrender.com/media/h/bdsm", '🥵')
+conn.sendButton(m.chat, '🥵', botname, "https://delirius-nsfw.onrender.com/media/h/bdsm", [['🔄 𝐒𝐈𝐆𝐔𝐈𝐄𝐍𝐓𝐄 🔄', `/${command}`]], null, null, m)
 m.react(xmoji) 
 db.data.users[m.sender].limit -= 1
 m.reply('1 ' + info.limit)}
@@ -47,7 +48,8 @@ db.data.users[m.sender].limit -= 2
 m.reply('2 ' + info.limit)}
 
 if (command == 'porno') {
-sendImageAsUrl("https://delirius-nsfw.onrender.com/media/r/ass", '🥵');
+conn.sendButton(m.chat, '🥵', botname, "https://delirius-nsfw.onrender.com/media/r/ass", [['🔄 𝐒𝐈𝐆𝐔𝐈𝐄𝐍𝐓𝐄 🔄', `/${command}`]], null, null, m)
+//sendImageAsUrl("https://delirius-nsfw.onrender.com/media/r/ass", '🥵');
 m.react(xmoji) 
 db.data.users[m.sender].limit -= 1
 m.reply('1 ' + info.limit)}
