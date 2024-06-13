@@ -1,12 +1,12 @@
 //Código desde cero y comentarios hecho por: 
 // @gata_dios   
 // @Skidy89  
-// @elrebelde21     
-                               
+// @elrebelde21          
+                                     
 //--------------------[ IMPORTACIONES ]-----------------------          
 const baileys = require('@whiskeysockets/baileys'); // trabajar a través de descargas por Whatsapp 
-const { WaMessageStubType, WA_DEFAULT_EPHEMERAL, BufferJSON, areJidsSameUser, downloadContentFromMessage, generateWAMessageContent, generateWAMessageFromContent, generateWAMessage, prepareWAMessageMedia, getContentType,  relayMessage} = require('@whiskeysockets/baileys'); // Importa los objetos 'makeWASocket' y 'proto' desde el módulo '@whiskeysockets/baileys'      
-const { default: makeWASocket, proto } = require("@whiskeysockets/baileys") 
+const { WaMessageStubType, WA_DEFAULT_EPHEMERAL, BufferJSON, areJidsSameUser, downloadContentFromMessage, generateWAMessageContent, generateWAMessageFromContent, generateWAMessage, prepareWAMessageMedia, getContentType,  relayMessage} = require('@whiskeysockets/baileys'); // Importa los objetos 'makeWASocket' y 'proto' desde el módulo '@whiskeysockets/baileys'       
+const { default: makeWASocket, proto } = require("@whiskeysockets/baileys")  
 const moment = require('moment-timezone') // Trabajar con fechas y horas en diferentes zonas horarias
 const gradient = require('gradient-string') // Aplicar gradientes de color al texto      
 const { exec, spawn, execSync } =  require("child_process")// Función 'execSync' del módulo 'child_process' para ejecutar comandos en el sistema operativo 
@@ -66,29 +66,12 @@ buffer = Buffer.concat([buffer, chunk]) }
 return buffer 
 }   
   
-const addCmd = (cmd, id) =>  {  
-  const stickerdb = global.db.data.sticker //gracias a aiden  
-  stickerdb[id] = {id: id,  
-  cmd: cmd  
-  }}  
-  const getCmd = (id) => {  
-  const stickerdb = global.db.data.sticker  
-  let anu = null;    
-  Object.keys(stickerdb).forEach(nganu => {   
-  if (stickerdb[nganu].id === id) {   
-  anu = nganu    
-  }})    
-  if (anu !== null) {    
-  return stickerdb[anu].cmd    
-  }}  
-    
 module.exports = conn = async (conn, m, chatUpdate, mek, store) => {  
 var body =  (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (m.mtype === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : '' 
 
 //----------------------[ ATRIBUTOS ]-------------------------
 if (m.key.id.startsWith("BAE5")) return    
 var budy = (typeof m.text == 'string' ? m.text : '')   
-    
 var prefix = /^[./*#]/gi.test(body) ? body.match(/^[/.*#]/gi)[0] : ""
 //var prefix = body.match(/^[/.*#]/)   
 const isCmd = body.startsWith(prefix)  
@@ -106,7 +89,7 @@ const userSender = m.key.fromMe ? botnm : m.isGroup && m.key.participant.include
 const isCreator = [conn.decodeJid(conn.user.id), ...global.owner.map(([numero]) => numero)].map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender);
 const isOwner = isCreator || m.fromMe;
 const isMods = isOwner || global.mods.map((v) => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender);
-const isPrems = isOwner || global.premium.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
+const isPrems = isOwner || global.premium.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender) 
 //const isCreator = global.owner.map(([numero]) => numero.replace(/[^\d\s().+:]/g, '').replace(/\s/g, '') + '@s.whatsapp.net').includes(userSender) 
 const itsMe = m.sender == conn.user.id ? true : false 
 const text = args.join(" ") 
@@ -117,11 +100,11 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const mime = (quoted.msg || quoted).mimetype || ''  
 const isMedia = /image|video|sticker|audio/.test(mime)
 const mentions = []  
-  if (m.message[type].contextInfo) {   
-  if (m.message[type].contextInfo.mentionedJid) {  
-  const msd = m.message[type].contextInfo.mentionedJid  
-  for (let i = 0; i < msd.length; i++) {  
-  mentions.push(msd[i])}}}  
+if (m.message[type].contextInfo) {   
+if (m.message[type].contextInfo.mentionedJid) {  
+const msd = m.message[type].contextInfo.mentionedJid  
+for (let i = 0; i < msd.length; i++) {  
+mentions.push(msd[i])}}}  
   
 //----------------------[ FUNCION/GRUPO ]-------------------------
 const groupMetadata = m.isGroup ? await conn.groupMetadata(from) : ''
@@ -135,9 +118,6 @@ const isPremium = m.isGroup ? premium.includes(userSender) : false
 const who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
 const thumb = fs.readFileSync("./media/menu2.jpg")
 const fkontak = { "key": { "participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${userSender.split('@')[0]}:${userSender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }
-
-const fake = { contextInfo: { forwardedNewsletterMessageInfo: { newsletterJid: '120363160031023229@newsletter', serverMessageId: '', newsletterName: 'INFINITY-WA 💫' }, mentionedJid: null, forwardingScore: 9999999, isForwarded: true, "externalAdReply": {"showAdAttribution": true, "containsAutoReply": true, "title": wm, "body": vs, "previewType": "PHOTO", thumbnail: imagen1, sourceUrl: md}}}
-
 const ftroli ={key: {fromMe: false,"participant":"0@s.whatsapp.net", "remoteJid": "status@broadcast"}, "message": {orderMessage: {itemCount: 2022,status: 200, thumbnail: thumb, surface: 200, message: "ɴᴏᴠᴀʙᴏᴛ-ᴍᴅ", orderTitle: "sᴜᴘᴇʀ ʙᴏᴛ ᴅᴇ ᴡʜᴀᴛsᴀᴘᴘ", sellerJid: '0@s.whatsapp.net'}}, contextInfo: {"forwardingScore":999,"isForwarded":true},sendEphemeral: true}
 const fdoc = {key : {participant : '0@s.whatsapp.net', ...(from ? { remoteJid: `status@broadcast` } : {}) },message: {documentMessage: {title: botname, jpegThumbnail: null}}}
 const kick = function (from, orangnya) {   
@@ -145,8 +125,12 @@ for (let i of orangnya) {
 conn.groupParticipantsUpdate(m.chat, [i], "remove")}}  
 const time = moment(Number(msg.messageTimestamp + "000")).locale("es-mx").tz("America/Asuncion").format('MMMM Do YYYY, h:mm:ss a')   
   
-const reply = (text) => {  
-m.reply(text)} 
+/*const reply = (text) => {  
+m.reply(text)}*/
+function sendMessage(conn, chat, text, m) {conn.sendMessage(chat, { text: text, contextInfo: { forwardedNewsletterMessageInfo: {newsletterJid: '120363160031023229@newsletter', serverMessageId: '', newsletterName: 'INFINITY-WA 💫' }, forwardingScore: 9999999, isForwarded: true }}, {quoted: m, ephemeralExpiration: 24*60*60*1000, disappearingMessagesInChat: 24*60*60*1000 // Ajustado a milisegundos
+})} 
+m.reply = (text) => {  
+sendMessage(conn, m.chat, text, m)}
 const sendAdMessage = (text, title, body, image, url) => { conn.sendMessage(m.chat, {text: text, contextInfo: { externalAdReply: { title: title, body: body, mediaUrl: url, sourceUrl: url, previewType: 'PHOTO', showAdAttribution: true, thumbnail: image, sourceUrl: url }}}, {})}  
 const sendImage = ( image, caption ) => { conn.sendMessage(m.chat, { image: image, caption: caption }, {quoted: m, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100})}  
 const sendImageAsUrl = ( url, caption ) => { conn.sendMessage(m.chat, { image:  {url: url }, caption: caption }, {quoted: m, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100})}  
@@ -163,7 +147,7 @@ const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stic
 const isQuotedDocument = type === 'extendedTextMessage' && content.includes('documentMessage')  
 const isQuotedMsg = type === 'extendedTextMessage' && content.includes('Message') // Mensaje citado de cualquier tipo  
 const isViewOnce = (type === 'viewOnceMessage') // Verifica si el tipo de mensaje es (mensaje de vista única)  
-   
+
 // Responder cmd con medios
  if (isMedia && m.msg.fileSha256 && (m.msg.fileSha256.toString('base64') in global.db.data.sticker)) {
 let hash = global.db.data.sticker[m.msg.fileSha256.toString('base64')]
@@ -603,6 +587,13 @@ messageTimestamp  : m.messageTimestamp || 754785898978
 return conn.ev.emit('messages.upsert', { messages : [ emit ] ,  type : 'notify'})
 }}}
 
+	    //características totales
+const mariafeature = () =>{
+            var mytext = fs.readFileSync("./main.js").toString()
+  var numUpper = (mytext.match(/case '/g) || []).length
+            return numUpper
+}
+
 //ARRANCA LA DIVERSIÓN   
 switch (prefix && command) {  
 case 'test': {
@@ -614,30 +605,15 @@ conn.relayMessage(testI.key.remoteJid, testI.message, { messageId: testI.key.id 
 break        
    
 case 'test2':   
-conn.sendButton(m.chat, `hola  @${sender.split("@")[0]} `, wm, pickRandom([img, img1, img2]), [['𝐃𝐄𝐒𝐂𝐀𝐑𝐆𝐀𝐑', `.descarga`], ['𝐕𝐄𝐋𝐎𝐂𝐈𝐃𝐀𝐃', `.ping`]], null, [['𝐍𝐨𝐯𝐚𝐁𝐨𝐭-𝐌𝐃', `${pickRandom([nna, nn, md, yt])}`]], null, { contextInfo: { mentionedJid: [sender] }}) 
- break 
 
-case 'nowa':  {
-let regex = /x/g  
-if (!text) m.reply(`Ejemplo de uso:* ${prefix + command} 12568795xxx.`) 
-//if (!text.match(regex)) m.reply(`*Ejemplo de uso: ${prefix + command} 521999340434x*`) 
-let random = text.match(regex).length, total = Math.pow(10, random), array = []  
-for (let i = 0; i < total; i++) {  
-let list = [...i.toString().padStart(random, '0')]  
-let result = text.replace(regex, () => list.shift()) + '@s.whatsapp.net'  
-if (await conn.onWhatsApp(result).then(v => (v[0] || {}).exists)) {  
-let info = await conn.fetchStatus(result).catch(_ => {})  
-array.push({ exists: true, jid: result, ...info })  
-} else {  
-array.push({ exists: false, jid: result })  
-}}  
-let txt = '"[ ＲＥＧＩＳＴＲＡＤＯＳ ]*\n\n' + array.filter(v => v.exists).map(v => `• *Número:* wa.me/${v.jid.split('@')[0]}\n*• Bio:* ${v.status || 'Sin descripcion'}\n*• Fecha:* ${formatDate(v.setAt)}`).join('\n\n') + '\n\n*No registrados*\n\n' + array.filter(v => !v.exists).map(v => v.jid.split('@')[0]).join('\n')  
-m.reply(txt)  
-function formatDate(n, locale = 'id') {  
-let d = new Date(n)  
-return d.toLocaleDateString(locale, { timeZone: 'Asia/Jakarta' })}}
-break   
-		
+//forwardingScore: 1, isForwarded: true,forwardedNewsletterMessageInfo: { newsletterJid: '120363167110224268@newsletter', newsletterName: 'Nova', serverMessageId: '' }}}
+//conn.sendButton(m.chat, `hola @${sender.split("@")[0]}`, wm, img2, [['𝐃𝐄𝐒𝐂𝐀𝐑𝐆𝐀𝐑', `.descarga`], ['𝐕𝐄𝐋𝐎𝐂𝐈𝐃𝐀𝐃', `.ping`]], null, [['𝐍𝐨𝐯𝐚𝐁𝐨𝐭-𝐌𝐃', `https://www.prueba.com`]], { contextInfo: {mentionedJid: [m.sender]}}, { quoted: fkontak });
+const chats = Object.entries(conn.chats).filter(([id, data]) => id && data.isChats)
+  const groupsIn = chats.filter(([id]) => id.endsWith('@g.us')) //groups.filter(v => !v.read_only)
+m.reply(`*total: ${mariafeature()}*`) 
+ break 
+   
+   
 case 'yts': case 'playlist': case 'ytsearch': case 'acortar': case 'google': case 'imagen': case 'traducir': case 'translate': case "tts": case 'ia': case 'chatgpt': case 'dalle': case 'ia2': case 'aimg': case 'imagine': case 'dall-e': case 'ss': case 'ssweb': case 'wallpaper': case 'hd': case 'horario': case 'bard': case 'wikipedia': case 'wiki': case 'pinterest': case 'style': case 'styletext': case 'npmsearch': await buscadores(m, command, conn, text, budy, from, fkontak, prefix, args, quoted, lolkeysapi)
 break   
  
@@ -656,24 +632,7 @@ const totalUsers = user.length;
 const responseMessage = `${lenguaje.jadibot.text18} ${totalUsers || '0'}\n\n${replyMessage.trim()}`.trim();
 await conn.sendMessage(m.chat, {text: responseMessage, mentions: conn.parseMention(responseMessage)}, {quoted: m, ephemeralExpiration: 24*60*100, disappearingMessagesInChat: 24*60*100});
 break
-           
-case 'bin': {
-const numeroAleatorio = Math.floor(Math.random() * 9000) + 1000;
-if (!isPrems) return m.reply(info.premium) 	
-if (!text) return m.reply(`⚠️Ingrese el número BIN\n*🔐 Algunos bin disponible :*\n• ${prefix + command} 539083\n• ${prefix + command} 464622\n• ${prefix + command} 464625\n• ${prefix + command} 464627`);
-  
-axios.get(`https://venomweb.site/apisfree/tipo/bin?query=${text}`)
-    .then(response => {
-      const data = response.data.data;
-      const bin = `🔐 Bin: ${data.bin}\n• País: ${data.pais}\n• Tipo: ${data.tipo}\n• Nivel: ${data.nivel}\n• Banco: ${data.banco}\n• tarjeta: ${data.bandeira}\n• Temporal: ${data.tempo_resposta}\n> ${data.code}`;
-      m.reply(bin);
-    })
-    .catch(error => {
-      console.log(error);
-      m.reply('Ocurrió un error al consultar la API');
-    })}
-  break;
-             
+                        
 //Info  
 case 'menu': case 'help': case 'menucompleto': case 'allmenu': case 'menu2': case 'audio': case 'nuevo': case 'extreno': case 'reglas': case 'menu1': case 'menu3': case 'menu4': case 'menu5': case 'menu6': case 'menu7': case 'menu8': case 'menu9': case 'menu10': case 'menu11': case 'menu18': case 'descarga': case 'menugrupos': case 'menubuscadores': case 'menujuegos': case 'menuefecto': case 'menuconvertidores': case 'Menuhony': case 'menurandow': case 'menuRPG': case 'menuSticker': case 'menuOwner': menu(m, command, conn, prefix, pushname, sender, pickRandom, fkontak)  
 break        
@@ -684,7 +643,7 @@ break
 case 'welcome': case 'bienvenida': case 'antilink': case 'antienlace': case 'antifake': case 'antiFake': case 'antiarabe': case 'antiArabe': case 'autodetect': case 'detect': case 'audios': case 'autosticker': case 'stickers': case 'modocaliente': case 'antinsfw': case 'modoadmin': case 'modoadmins': case 'soloadmin': case 'antiprivado': case 'antipv': case 'anticall': case 'antillamada': case 'modojadibot': case 'jadibot': case 'autoread': case 'autovisto': case 'antispam': case 'chatbot': case 'simsimi': case 'autolevelup': case 'autonivel': case 'antitoxic': case 'antilink2': case 'AntiTwiter': case 'antitwiter': case 'antitiktok': case 'AntiTikTok': case 'antitelegram': case 'AntiTelegram': case 'antifacebook': case 'AntiFb': case 'AntiFacebook': case 'antinstagram': case 'AntInstagram': case 'antiyoutube': case 'AntiYoutube': case 'AntiIg': case 'enable': case 'configuracion': case 'configurar': case 'antiviewonce': case 'game2': enable(m, command, isGroupAdmins, text, command, args, conn, isBotAdmins, isGroupAdmins, isCreator, conn) 
 break 
                               
-//Grupos           
+//Grupos            
 case 'grupo': case 'delete': case 'del': case 'join': case 'unete': case 'hidetag': case 'notificar': case 'tag': case 'setppgroup': case 'setpp': case 'setppname': case 'nuevonombre': case 'newnombre': case 'setdesc': case 'descripción': case 'anularlink': case 'resetlink': case 'revoke': case 'add': case 'agregar': case 'invitar': case 'kick': case 'echar': case 'sacar': case 'promote': case 'darpoder': case 'demote': case 'quitarpoder': case 'link': case 'linkgc': case 'banchat': case 'tagall': case 'invocar': case 'todos': case 'admins': case 'administradores': case 'infogrupo': case 'groupinfo': case 'warn': case 'advertencia': case 'unwarn': case 'quitardvertencia': case 'listwarn': case 'enline': case 'online': case 'listonine': case 'listaenlinea': case 'enlinea': case 'listonline': case 'setrules': case 'addrules': case 'addrule': case 'rules': case 'grouplist': case 'listgc': case 'fantasmas': grupo(m, command, isGroupAdmins, text, conn, participants, isBotAdmins, args, isCreator, delay, sender, quoted, mime, from, isCreator, groupMetadata, fkontak, delay) 
 break       
 
@@ -831,7 +790,21 @@ break
 //stickers   
 case 's': case 'sticker': case 'wm': case 'take': case 'attp': case 'dado': case 'qc': stickers(m, command, conn, mime, quoted, args, text, lolkeysapi, fkontak)   
 break
-                                          
+ 
+case 'bin': {
+if (!isPrems) return m.reply(info.premium) 	
+if (!text) return m.reply(`⚠️Ingrese el número BIN\n*🔐 Algunos bin disponible :*\n• ${prefix + command} 539083\n• ${prefix + command} 464622\n• ${prefix + command} 464625\n• ${prefix + command} 464627`);
+  
+axios.get(`https://venomweb.site/apisfree/tipo/bin?query=${text}`).then(response => {
+const data = response.data.data;
+const bin = `🔐 Bin: ${data.bin}\n• País: ${data.pais}\n• Tipo: ${data.tipo}\n• Nivel: ${data.nivel}\n• Banco: ${data.banco}\n• tarjeta: ${data.bandeira}\n• Temporal: ${data.tempo_resposta}\n> ${data.code}`;
+m.reply(bin);
+}).catch(error => {
+console.log(error);
+m.reply('Ocurrió un error al consultar la API');
+})}
+break;
+                           
 //idiomas 
 case 'idioma': case 'Language': case 'idiomas': { 
 let user = global.db.data.users[m.sender]
@@ -867,7 +840,28 @@ m.reply(lenguaje.idioma2() + idiomas)
 } catch (e) {
 m.reply(lenguaje.AvisoMG() + lenguaje.idioma(prefix))}}
 break  
- 	                 
+
+case 'nowa':  {
+let regex = /x/g  
+if (!text) m.reply(`*Ejemplo de uso:* ${prefix + command} 12568795xxx.`) 
+//if (!text.match(regex)) m.reply(`*Ejemplo de uso: ${prefix + command} 521999340434x*`) 
+let random = text.match(regex).length, total = Math.pow(10, random), array = []  
+for (let i = 0; i < total; i++) {  
+let list = [...i.toString().padStart(random, '0')]  
+let result = text.replace(regex, () => list.shift()) + '@s.whatsapp.net'  
+if (await conn.onWhatsApp(result).then(v => (v[0] || {}).exists)) {  
+let info = await conn.fetchStatus(result).catch(_ => {})  
+array.push({ exists: true, jid: result, ...info })  
+} else {  
+array.push({ exists: false, jid: result })  
+}}  
+let txt = '*[ ＲＥＧＩＳＴＲＡＤＯＳ ]*\n\n' + array.filter(v => v.exists).map(v => `• *Número:* wa.me/${v.jid.split('@')[0]}\n*• Bio:* ${v.status || 'Sin descripcion'}\n*• Fecha:* ${formatDate(v.setAt)}`).join('\n\n') + '\n\n*[ ＮＯ ＲＥＧＩＳＴＲＡＤＯＳ ]*\n\n' + array.filter(v => !v.exists).map(v => v.jid.split('@')[0]).join('\n')  
+m.reply(txt)  
+function formatDate(n, locale = 'id') {  
+let d = new Date(n)  
+return d.toLocaleDateString(locale, { timeZone: 'Asia/Jakarta' })}}
+break  
+      	                 
 case 'addprem': { 
 if (!isCreator) return reply(info.owner)
 let who
