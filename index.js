@@ -81,20 +81,21 @@ if (opts['autocleartmp'] && (global.support || {}).find) (tmp = [os.tmpdir(), 't
 }}
 
 function clearTmp() {
-const tmp = [tmpdir(), join(__dirname, './tmp')];
-const filename = [];
-tmp.forEach((dirname) => readdirSync(dirname).forEach((file) => filename.push(join(dirname, file))));
-return filename.map((file) => {
+const tmp = [os.tmpdir(), join(__dirname, './tmp')];
+const files = [];
+tmp.forEach((dirname) => {
+readdirSync(dirname).forEach((file) => files.push(join(dirname, file)));
+});
+files.forEach((file) => {
 const stats = statSync(file);
-if (stats.isFile() && (Date.now() - stats.mtimeMs >= 1000 * 60 * 3)) {
-return unlinkSync(file); // 3 minutes
-}
-return false;
+if (stats.isFile() && (Date.now() - stats.mtimeMs >= 180000)) {
+unlinkSync(file)}
 })}
 
 setInterval(async () => {
-await clearTmp()
-console.log(chalk.cyanBright(lenguaje['tmp']()))}, 180000)
+await clearTmp();
+console.log(chalk.cyanBright(lenguaje['tmp']()));
+}, 600000); //10 minutos
 //_________________
 
 //sessions/jadibts
@@ -145,18 +146,19 @@ console.log(chalk.bold.green(`${lenguaje['archivo']()} ${file} ${lenguaje['archi
 } else {  
 console.log(chalk.bold.red(`${lenguaje['archivo']()} ${file} ${lenguaje['archborrado']()}` + err))
 } }) }) }) })}
+
 setInterval(async () => {
   await purgeSession();
   console.log(chalk.cyanBright(`${lenguaje['purgesessions']()}`));
-}, 1000 * 60 * 60);
+}, 3600000); //1 hora
 setInterval(async () => {
   await purgeSessionSB();
   console.log(chalk.cyanBright(`${lenguaje['purgesubbots']()}`));
-}, 1000 * 60 * 60);
+}, 3600000); 
 setInterval(async () => {
   await purgeOldFiles();
-  console.log(chalk.cyanBright(`${lenguaje['purgeoldfiles']()}`));
-}, 1000 * 60 * 60);
+  console.log(chalk.cyanBright(`${lenguaje['purgeoldfiles']()}.`));
+}, 3600000); 
 //___________
     
 const store = makeInMemoryStore({logger: pino().child({level: 'silent', stream: 'store' })})
